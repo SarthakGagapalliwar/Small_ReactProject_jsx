@@ -144,4 +144,156 @@ export default function Price(){
     //use prices1.number
     },[price1]) //if i give simply price it will all time call if value is same use (prices.number)
     
+};
+
+
+export default function blogPost(){
+    const [post, setPost]=useState(null);
+
+    const [loading, setLoading]=useState(true);
+
+    useEffect(()=>{
+        fetch("https://dummyjson.com/posts/1")
+        .then((res)=>res.json())
+        .then((data)=>{
+            setPost(data)
+            setLoading(false);
+        })
+    })
+
+    return(
+        <>
+        <h1>{post.title}</h1> // herre is the catch that thia will render first then useEffect it will get error  
+        <h1>{post.body}</h1> //same for  this
+
+        //frr solve this problem user (?)
+
+        <h1>{post?.title}</h1> // it not throw error 
+        <h1>{post?.body}</h1>
+
+
+        // another solution is use Loading state
+
+        {
+            loading ? ("Loading") : (
+                <>
+                 <h1>{post.title}</h1> 
+                 <h1>{post.body}</h1>
+                </>
+            )
+        }
+
+
+        </>
+    );
+}
+
+
+
+const useWindowSize = ()=>{ // making a custom hook to user evrey where 
+    const [windowSize, setWindowSize]=useState(1920);
+
+      useEffect(()=>{
+        const hadnleWindowSizeChange = ()=>{
+            setWindowSize(window.innerWidth);
+        };
+        window.addEventListener("resize",hadnleWindowSizeChange);
+
+
+        return ()=>{ // use this all time
+            window.removeEventListener("resize", hadnleWindowSizeChange);
+        }
+    },[]);
+
+    return windowSize;
+}
+
+
+export default function ExampleComponent1(){
+    // const [windowSize, setWindowSize]=useState(1920);
+
+    // useEffect(()=>{
+    //     const hadnleWindowSizeChange = ()=>{
+    //         setWindowSize(window.innerWidth);
+    //     };
+    //     window.addEventListener("resize",hadnleWindowSizeChange);
+
+
+    //     return ()=>{ // use this all time
+    //         window.removeEventListener("resize", hadnleWindowSizeChange);
+    //     }
+    // },[])
+
+    const windowSize =useWindowSize()
+
+    return <div>Component 1</div>;
+}
+export function ExampleComponent2(){
+    //want tot same state in useeffct in this function
+   const windowSize =useWindowSize()
+
+    return <div>Component2</div>;
+}
+
+
+
+
+//
+
+export default function CounterExample(){
+    const[count,setCount]=useState(0);
+
+  // classic stale closure problem in React. in this function
+    useEffect(()=>{
+        const i= setInterval(()=>{
+            console.log("Interval functon running....");
+            setCount(count+1);  
+              //in tho useeffect runs ones js not recretre the function every second
+              // this varibale like count crete on function creted time only
+               //So every second, it does setCount(0 + 1) → which always sets it to 1.
+              // at first the count is 0 => goes to 1 then setCount(1); then not cahnge same value all time
+
+        },1000);
+        // to solve this problem give ddependency [count] , now this will work proberly with it wll give hickup  lack like
+
+        return ()=>{
+            clearInterval(i);
+        }
+    },[])//[count]
+
+    // this is most clerer version
+
+    useEffect(() => {
+        const id = setInterval(() => {
+            console.log("Interval function running....");
+            setCount(prev => prev + 1);  // ✅ functional update
+        }, 1000);
+
+        return () => clearInterval(id); // ✅ cleanup on unmount
+    }, []);
+
+    return <p>count is {count}</p>;
+}
+
+
+
+
+// id is coming from diffrent function rondom click
+export default function postbody({id}){
+    const [text,setText]= useState("");
+
+    useEffect(()=>{
+        const controler=new AbortController();
+
+        fetch(`https://dummyjson.com/posts/${id}`,{
+            signal:controler.signal  // aatech the signla to featch from abortController
+        })
+        .then((res)=>res.json)
+        .then((data) => setText(data.body));
+
+
+        return ()=>controler.aboard(); // clear all preves fetch call givr the alt call only so use AbordController
+    }, [id]);
+
+    return <p>{text}</p>;
 }
