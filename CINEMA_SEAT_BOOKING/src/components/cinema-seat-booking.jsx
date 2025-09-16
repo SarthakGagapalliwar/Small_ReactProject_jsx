@@ -239,7 +239,7 @@ const CinemaSeatBooking = ({
       <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-xl p-6">
         {/* Title */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-2 text-gray-800 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl lg:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             {title}
           </h1>
           <p className="text-gray-600 text-lg">{subtitle}</p>
@@ -417,7 +417,9 @@ const CinemaSeatBooking = ({
         {/* Booking History */}
         {bookingHistory.length > 0 && (
           <div className="mt-8 p-4 bg-green-50 rounded-lg border border-green-200">
-            <h3 className="font-bold text-green-800 mb-3">✅ Recent Bookings</h3>
+            <h3 className="font-bold text-green-800 mb-3">
+              ✅ Recent Bookings
+            </h3>
             <div className="space-y-2">
               {bookingHistory.slice(-3).map((booking, index) => (
                 <div

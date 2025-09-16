@@ -1,0 +1,94 @@
+/*
+1. React Class Component Lifecycle
+React lifecycle is divided into three main phases:
+Mounting – when component is created and inserted into the DOM.
+Updating – when component is re-rendered due to state or prop changes.
+Unmounting – when component is removed from the DOM.
+
+
+🔹 How it maps to Function Components
+
+Mounting → useEffect(() => { ... }, [])
+Updating → useEffect(() => { ... }, [dependencies])
+Unmounting → useEffect(() => { return () => { ... } }, []) ==that’s one of the main reasons we use the cleanup function in useEffect!
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount(prev => prev + 1);
+    }, 1000);
+
+    // Cleanup on unmount
+    return () => {
+      clearInterval(interval); // prevent memory leak
+      console.log("Component unmounted, timer cleared");
+    };
+  }, []);
+
+  return <h1>Count: {count}</h1>;
+}
+
+
+🔹 Summary
+Unmounting cleanup in useEffect is essential for memory management and avoiding errors.
+Always clean up timers, listeners, subscriptions, and async callbacks in the return function.
+
+*/
+
+
+
+/*
+
+
+optimizing React performance — perfect, this is super important for large apps.
+
+
+| Technique         | Purpose                                            |
+| ----------------- | -------------------------------------------------- |
+| Lazy Loading      | Load components only when needed                   |
+| React.memo        | Prevent unnecessary re-renders of child components |
+| useMemo           | Memoize expensive calculations                     |
+| useCallback       | Memoize functions to avoid re-creation             |
+| Virtualization    | Efficiently render long lists                      |
+| Code Splitting    | Reduce initial bundle size                         |
+| Avoid extra state | Don’t store derived data in state                  |
+
+
+
+               ┌───────────────────────────────┐
+               │   React Performance Boosters   │
+               └───────────────────────────────┘
+                            │
+  ┌─────────────────────────┼─────────────────────────┐
+  │                         │                         │
+  ▼                         ▼                         ▼
+Lazy Loading          Memoization              Virtualization
+(Load only when       (Avoid re-renders)       (Efficient lists)
+needed)                      │                         │
+   │                         │                         │
+React.lazy + Suspense   ┌───────────────┐        react-window /
+Code Splitting          │ React.memo    │        react-virtualized
+Dynamic Imports         │ useMemo       │
+                        │ useCallback   │
+                        └───────────────┘
+
+          ┌─────────────────────────────┐
+          │   Other Best Practices       │
+          └─────────────────────────────┘
+          │ - Avoid unnecessary state
+          │ - Avoid anonymous functions in JSX
+          │ - Split bundles (webpack / vite)
+          │ - Use Profiler to find bottlenecks
+          │ - Debounce/throttle expensive events
+
+
+
+useMemo
+What it does: Memoizes a value (result of a calculation).
+When to use: When you have an expensive calculation you don’t want to re-run on every render.
+
+useCallback
+What it does: Memoizes a function (its reference).
+When to use: When passing functions to memoized child components to prevent unnecessary re-renders.
+
+*/

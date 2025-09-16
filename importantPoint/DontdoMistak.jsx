@@ -1,4 +1,4 @@
-const { useState, useEffect } = require("react");
+import React, { useState, useEffect } from "react";
 
 
 function Counter(){
@@ -35,11 +35,11 @@ export default function(){
         //for very city anme and age what in upadted users you should use
 
         setUser({
-            ...user, //this will copy user object and give whwne we upadated 
-            name : e.taget.value,  // this will give the all value on change the name also /this will overwrite that
+            ...user, //this will copy user object and give when we updated 
+            name : e.target.value,  // this will give the all value on change the name also /this will overwrite that
         })
 
-        setUser(user.name=e.taget.value)// this will give the error we need to give the object
+        setUser(user.name=e.target.value)// this will give the error we need to give the object
     }
 }
 
@@ -60,12 +60,12 @@ export default function form(){
         setForm({
             ...from, //this is copy every think from the (form)
             firstName:e.target.value, // this will take tth firstname name as name firtname from the form
-            lastName:e.taget.value, // this will take the same name for all
-            email:e.taget.value,
+            lastName:e.target.value, // this will take the same name for all
+            email:e.target.value,
 
-            //to solve this will take the name fomr the lable and same form the object we will do
+            //to solve this will take the name from the label and same form the object we will do
             ...from,
-            [e.taget.name] : e.taget.value, // this is best 
+            [e.target.name] : e.target.value, // this is best 
         });
     }
 
