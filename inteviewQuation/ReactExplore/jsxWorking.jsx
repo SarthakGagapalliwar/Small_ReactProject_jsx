@@ -4,7 +4,7 @@ const jsxWorking = () => {
   // JSX (JavaScript XML) lets us write HTML-like code inside JavaScript.
   // It makes it easier to describe the UI in React.
 
-  //jsx is like mixture of html ans js that you can write html in js code
+  //jsx is like mixture of html and js that you can write html in js code
   //react look like HTML but behave like javaScript
 
   //jsx is not HTML - its's syntactic sugar over React.createElement()

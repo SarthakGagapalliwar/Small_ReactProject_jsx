@@ -53,7 +53,21 @@ optimizing React performance — perfect, this is super important for large apps
 | Code Splitting    | Reduce initial bundle size                         |
 | Avoid extra state | Don’t store derived data in state                  |
 
+Code Splitting =>Code splitting is a technique where your application’s code is split into multiple bundles, which can be loaded on demand.
+Purpose: Reduce initial bundle size and improve app performance.
+// Lazy loading is actually a type of code splitting
 
+Error Boundaries=>An Error Boundary is a React component that catches JavaScript errors 
+anywhere in its child component tree, logs those errors, and displays a fallback UI 
+instead of crashing the entire app.
+They catch runtime errors in rendering, lifecycle methods, and constructors of child components.
+They do NOT catch errors in event handlers, async code, or server-side rendering.
+
+//there is in build labibry we have to download rect-error-boundry then use like component <ErrorBoundry> 
+//show connen Erroe for all 
+//show specific Error Message
+//Log error
+//Relod the page
 
                ┌───────────────────────────────┐
                │   React Performance Boosters   │
@@ -91,4 +105,81 @@ useCallback
 What it does: Memoizes a function (its reference).
 When to use: When passing functions to memoized child components to prevent unnecessary re-renders.
 
+*/
+
+
+diifent betwwn contreol and unconteioll conponets
+
+/* 
+1️⃣ Controlled Components
+Definition: The form element’s value is controlled by React state.
+React owns the state of the input.
+The input value changes only when the state changes.
+Pros:
+Easier to validate or manipulate input values.
+React has full control over the data.
+Cons:
+Requires extra code for state management.
+
+
+<input    const [name, setName] = React.useState("");
+      type="text"
+      value={name}          // value controlled by React state
+      onChange={e => setName(e.target.value)} // updates state
+/>
+Good for validation, dynamic forms, conditional disabling, etc.
+
+
+2️⃣ Uncontrolled Components
+Definition: The form element maintains its own internal state.
+React doesn’t directly control the value.
+You use a ref to get the value when needed.
+const inputRef = React.useRef();
+Pros:
+Less code to write for simple forms.
+Cons:
+Harder to validate or manipulate input values.
+
+ const handleSubmit = () => {
+    alert(inputRef.current.value); // access value when needed
+};
+
+  <input type="text" ref={inputRef} />
+  <button onClick={handleSubmit}>Submit</button>
+
+Value is not bound to React state,React only reads the value via ref,Useful for simple forms, third-party integrations, or performance-critical inputs.
+You can do validation in uncontrolled components, but it works differently and is less convenient than with controlled components. 
+
+| Feature          | Controlled                | Uncontrolled               |
+| ---------------- | ------------------------- | -------------------------- |
+| State management | React state               | DOM handles internal state |
+| Access value     | From React state          | Via ref                    |
+| Updates          | onChange → setState       | User input automatically   |
+| Use cases        | Validation, dynamic forms | Simple forms, legacy code  |
+| Code complexity  | Slightly more code        | Less code                  |
+| Validation       | Easy                      | hard                       |
+
+
+**Use controlled components when you need to respond to user input immediately (like live validation or enabling buttons). Use uncontrolled components for simple forms or when you don’t need to monitor input constantly.
+
+The DOM itself is uncontrolled.
+Direct DOM manipulation is like an uncontrolled component — React is not aware of the changes.
+
+// Uncontrolled style
+function Menu() {
+  const handleClick = () => {
+    document.getElementById("myMenu").style.display = "block"; // DOM manipulation
+  };
+
+ //Controlled way 
+const [isOpen, setIsOpen] = React.useState(false);
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Open Menu</button>
+      {isOpen && <div id="myMenu">Menu Content</div>}
+    </>
+
+💡 Rule of thumb:
+If you use React state to control it, it’s controlled.
+If you manipulate the DOM directly, it’s uncontrolled.   
 */
